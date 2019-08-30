@@ -5,6 +5,7 @@
 
 #include <Arduino.h>
 #include <string.h>
+#include <Arduino_FreeRTOS.h>
 
 namespace hermes
 {
@@ -22,7 +23,7 @@ public:
 
     bool AtDebug(char *command);
 
-    bool areYouOkay(String &str);
+    bool areYouOkay(String str);
 
     bool forcedRefresh();
 };

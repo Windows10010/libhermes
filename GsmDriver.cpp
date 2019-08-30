@@ -27,7 +27,7 @@ bool GsmDriver<T>::init(){
 }
 
 template <typename T>
-String GsmDriver<T>::sendSms(String &messege)
+String GsmDriver<T>::sendSms(String messege)
 {
 
     Serial.println("Sending SMS");
@@ -37,7 +37,8 @@ String GsmDriver<T>::sendSms(String &messege)
     this->_serial.write(0x0D);
     this->_serial.write(0x0A);
     this->_serial.print("\n");
-    long start = millis();
+    // long start = millis();
+    TickType_t start = xTaskGetTickCount();
     char c;
     while (true)
     {
@@ -46,7 +47,7 @@ String GsmDriver<T>::sendSms(String &messege)
             Serial.println("SERIAL AVAILAIBLE");
             break;
         }
-        if (millis() - start > 3000)
+        if (((unsigned long)(xTaskGetTickCount() - start))*portTICK_PERIOD_MS > 3000)
         {
             Serial.println("SERIAL TIMEOUT");
             return String("");

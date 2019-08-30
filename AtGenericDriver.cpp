@@ -13,19 +13,19 @@ String AtGenericDriver<T>::sendATCommand(char *command)
 {
     _serial.println(command);
     // TickType_t staort = xTaskGetTickCount();
-    unsigned long start = 0;
+    TickType_t start;
     char c;
     String str("");
-    start = 0;
     bool flag = true;
     while (true)
     {   
         if(!this->_serial.available()){
             if(flag){
-                start = millis();
+                // start = millis();
+                start = xTaskGetTickCount();
                 flag = !flag;
             }else{
-                if(millis() - start > 5000){
+                if(((unsigned long)(xTaskGetTickCount() - start))*portTICK_PERIOD_MS > 5000){
                     if(str.equals(String(""))){
                         Serial.println("TIMEOUT");
                     }else{
@@ -47,7 +47,7 @@ template <typename T>
 bool AtGenericDriver<T>::AtDebug(char *command)
 {
     bool isSuccessful = false;
-    Serial.println("SIM7600CE Test Started...");
+    // Serial.println("SIM7600CE Test Started...");
     Serial.print("Sending AT command : \"");
     Serial.print(command);
     Serial.println("\"");
@@ -61,7 +61,7 @@ bool AtGenericDriver<T>::AtDebug(char *command)
 }
 
 template <typename T>
-bool AtGenericDriver<T>::areYouOkay(String &str)
+bool AtGenericDriver<T>::areYouOkay(String str)
 {
     bool O = false;
     char ca[str.length()];

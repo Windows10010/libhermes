@@ -17,11 +17,13 @@
 #include <string.h>
 #include <Arduino.h>
 #include <AtGenericDriver.h>
+#include <Arduino_FreeRTOS.h>
+
 
 namespace hermes
 {
 
-typedef struct gpsData{
+typedef struct{
 
     double longitude;
     double latitude;
@@ -42,11 +44,11 @@ public:
 
     bool init();
 
-    String sendSms(String &messege);
+    String sendSms(String messege);
 
     String getGpsInfo();
 
-    void setPhoneNumber(String &tel);
+    void setPhoneNumber(String tel);
 
     void setPhoneNumber(char * tel);
 
