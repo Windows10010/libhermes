@@ -2,8 +2,8 @@
 #define TIMING_H
 
 #include <Arduino.h>
-#include <string.h>
 #include <Arduino_FreeRTOS.h>
+#include <string.h>
 
 unsigned long getSysTime();
 
